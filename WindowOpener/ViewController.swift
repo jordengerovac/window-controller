@@ -66,6 +66,8 @@ class ViewController: UIViewController {
             if self.isStringAnInt(string: (alertController.textFields?[0].text)!) && self.isStringAnInt(string: (alertController.textFields?[1].text)!){
                 let high: Int = Int((alertController.textFields?[0].text)!)!
                 let low: Int = Int((alertController.textFields?[1].text)!)!
+                self.setHigh(h: high)
+                self.setLow(l: low)
                 //self.labelMessage.text = "High: \(high) Low: \(low)"
             }
         }
@@ -126,6 +128,7 @@ class ViewController: UIViewController {
         }
     }
     
+    // Open window button functionality
     @IBAction func openAction(_ sender: Any) {
         print("openning window")
         let urlOpen = URL(string: "https://awtcapi2018.azurewebsites.net/api/Manual/Open")
@@ -137,11 +140,34 @@ class ViewController: UIViewController {
         task.resume()
     }
     
+    // Close window button functionality
     @IBAction func closeAction(_ sender: Any) {
         print("closing window")
         let urlClose = URL(string: "https://awtcapi2018.azurewebsites.net/api/Manual/Close")
         
         let task = URLSession.shared.dataTask(with: urlClose!) {(data, response, error) in
+            print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue)!)
+        }
+        
+        task.resume()
+    }
+    
+    // Set high temperature
+    func setHigh(h: Int) {
+        let urlOpen = URL(string: "https://awtcapi2018.azurewebsites.net/api/High/\(h)")
+        
+        let task = URLSession.shared.dataTask(with: urlOpen!) {(data, response, error) in
+            print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue)!)
+        }
+        
+        task.resume()
+    }
+    
+    // Set low temperature
+    func setLow(l: Int) {
+        let urlOpen = URL(string: "https://awtcapi2018.azurewebsites.net/api/Low/\(l)")
+        
+        let task = URLSession.shared.dataTask(with: urlOpen!) {(data, response, error) in
             print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue)!)
         }
         
